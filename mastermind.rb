@@ -1,16 +1,19 @@
 class Mastermind
+  public
   def initialize
     @masterCode = []
     @guessCode = []
     @returnCode = []
-    @colours = ["Blue", "Green", "Red", "Pink"]
+    @colours = ["blue", "green", "red", "pink"]
     @turn = 0
   end
 
   def play
     gameOver = FALSE
-    until gameOver == TRUE
-      generateCode
+    generateCode
+    puts "Possible colours #{@colours}"
+    until gameOver == TRUE || @turn == 12
+      puts "Turn #{@turn+=1}"
       guess
       gameOver = compare
       puts "return code is #{@returnCode}"
@@ -18,17 +21,17 @@ class Mastermind
     puts "The master code was #{@masterCode}"
   end
 
+  private
   def generateCode
     4.times do |i|
       @masterCode[i] = @colours.sample
     end
-    puts @masterCode
   end
 
   def guess
     4.times do |i|
       print "guess position #{i+1}: "
-      @guessCode[i] = gets.chomp()
+      @guessCode[i] = gets.chomp.downcase()
     end
   end
 
@@ -39,7 +42,7 @@ class Mastermind
         @returnCode.push("Red")
       end
     end
-    if @guessCode.length == 4 #4 Red Pegs
+    if @returnCode.length == 4 #4 Red Pegs
       puts "You have guessed the code correctly"
       return TRUE
     end
